@@ -1,15 +1,14 @@
+# client.py
 import socket
 from Crypto.Cipher import DES
 from Crypto.Random import get_random_bytes
 import base64
 
 def pad(text):
-    # Use PKCS7 padding
     padding_length = 8 - (len(text) % 8)
     return text + chr(padding_length) * padding_length
 
 def unpad(text):
-    # Remove PKCS7 padding
     padding_length = ord(text[-1])
     return text[:-padding_length]
 
@@ -18,7 +17,7 @@ class DESClient:
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((host, port))
         self.key = get_random_bytes(8)
-        self.socket.sendall(self.key)  # Send the key securely
+        self.socket.sendall(self.key)  
         print("Connected to server and key exchanged")
 
     def encrypt_message(self, message):

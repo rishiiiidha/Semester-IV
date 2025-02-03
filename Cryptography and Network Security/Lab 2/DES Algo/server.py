@@ -1,14 +1,13 @@
+# server.py
 import socket
 from Crypto.Cipher import DES
 import base64
 
 def pad(text):
-    # Use PKCS7 padding
     padding_length = 8 - (len(text) % 8)
     return text + chr(padding_length) * padding_length
 
 def unpad(text):
-    # Remove PKCS7 padding
     padding_length = ord(text[-1])
     return text[:-padding_length]
 

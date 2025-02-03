@@ -48,7 +48,6 @@ else:
     decrypted_text = des_decrypt(encrypted_text, key)
     print("Decrypted:", decrypted_text)
 
-    # Encrypt and decrypt a file
     input_file = input("Enter the path of the file to encrypt: ")
     encrypted_file = input("Enter the path to save the encrypted file: ")
     decrypt_output_file = input("Enter the path to save the decrypted file: ")

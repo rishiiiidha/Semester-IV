@@ -2,27 +2,28 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from Crypto.Random import get_random_bytes
 
-KEY_SIZE = 32  
+KEY_LENGTH = 32  
 BLOCK_SIZE = AES.block_size  
 
-def encrypt_text(plain_text, key):
-    cipher = AES.new(key, AES.MODE_CBC)
-    iv = cipher.iv 
-    ciphertext = cipher.encrypt(pad(plain_text.encode(), BLOCK_SIZE))
-    return iv + ciphertext  
+def encrypt_data(data, key):
+    cipher = AES.new(key, AES.MODE_CBC)  
+    iv = cipher.iv  
+    encrypted_bytes = cipher.encrypt(pad(data.encode(), BLOCK_SIZE))
+    return iv + encrypted_bytes  
 
-def decrypt_text(cipher_text, key):
-    iv = cipher_text[:BLOCK_SIZE] 
-    ciphertext = cipher_text[BLOCK_SIZE:]
-    cipher = AES.new(key, AES.MODE_CBC, iv)
-    plain_text = unpad(cipher.decrypt(ciphertext), BLOCK_SIZE)
-    return plain_text.decode()
-key = get_random_bytes(KEY_SIZE)  
-plain_text = "Hello, my name is Rishidha!"
+def decrypt_data(encrypted_data, key):
+    iv = encrypted_data[:BLOCK_SIZE]  
+    encrypted_bytes = encrypted_data[BLOCK_SIZE:]  
+    cipher = AES.new(key, AES.MODE_CBC, iv)  
+    decrypted_bytes = unpad(cipher.decrypt(encrypted_bytes), BLOCK_SIZE)
+    return decrypted_bytes.decode()  
 
-encrypted_text = encrypt_text(plain_text, key)
-decrypted_text = decrypt_text(encrypted_text, key)
+key = get_random_bytes(KEY_LENGTH)  
+text = "Confidential Message!"
 
-print("Original Text:", plain_text)
-print("Encrypted Text:", encrypted_text)
-print("Decrypted Text:", decrypted_text)
+encrypted_message = encrypt_data(text, key)
+decrypted_message = decrypt_data(encrypted_message, key)
+
+print("Original:", text)
+print("Encrypted:", encrypted_message)
+print("Decrypted:", decrypted_message)

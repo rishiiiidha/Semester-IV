@@ -1,0 +1,11 @@
+RC4 Stream Cipher Lab Exercise
+Exercise:Write a C/C++/Java program to implement RC4 Stream Ciphering algorithm.
+Instructions and Steps:
+1. Ask user to provide a key (K) <= 256 bytes.
+2. Initialize a byte array S as per the RC4 initialization requirements.
+3. Fill a byte array T with key (K) bytes.
+4. Permute S with the help of T as per RC4 initial permutation.
+5. Generate random stream of bytes (k) with the help of S as per RC4 stream generationprocedure.
+6. Ask user to enter plaintext bytes (P).
+7. Perform XOR between plaintext (P) and random stream of bytes (k) to encrypt theplaintext to ciphertext bytes (C).
+8. Decrypt ciphertext (C) to restore plaintext bytes (P) using the same stream of randomstream of bytes (k)

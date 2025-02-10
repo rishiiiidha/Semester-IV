@@ -2,41 +2,41 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from Crypto.Random import get_random_bytes
 
-KEY_SIZE = 32  
-BLOCK_SIZE = AES.block_size 
+KEY_LENGTH = 32  
+BLOCK_SIZE = AES.block_size  
 
-def encrypt_file(input_file, output_file, key):
+def encrypt_file(source_file, encrypted_file, key):
     cipher = AES.new(key, AES.MODE_CBC)
     iv = cipher.iv  
-    
-    with open(input_file, 'rb') as f:
-        plaintext = f.read()
-    
-    ciphertext = cipher.encrypt(pad(plaintext, BLOCK_SIZE))
-    
-    with open(output_file, 'wb') as f:
-        f.write(iv + ciphertext) 
-    
-    print("Encryption complete. Encrypted file saved as:", output_file)
 
-def decrypt_file(input_file, output_file, key):
-    with open(input_file, 'rb') as f:
-        iv = f.read(BLOCK_SIZE)
-        ciphertext = f.read()
+    with open(source_file, 'rb') as file:
+        file_data = file.read()
+    
+    encrypted_data = cipher.encrypt(pad(file_data, BLOCK_SIZE))
+    
+    with open(encrypted_file, 'wb') as file:
+        file.write(iv + encrypted_data)  
+    
+    print(f"File encrypted successfully: {encrypted_file}")
+
+def decrypt_file(encrypted_file, output_file, key):
+    with open(encrypted_file, 'rb') as file:
+        iv = file.read(BLOCK_SIZE)
+        encrypted_data = file.read()
     
     cipher = AES.new(key, AES.MODE_CBC, iv)
-    plaintext = unpad(cipher.decrypt(ciphertext), BLOCK_SIZE)
+    decrypted_data = unpad(cipher.decrypt(encrypted_data), BLOCK_SIZE)
     
-    with open(output_file, 'wb') as f:
-        f.write(plaintext)
+    with open(output_file, 'wb') as file:
+        file.write(decrypted_data)
     
-    print("Decryption complete. Decrypted file saved as:", output_file)
+    print(f"File decrypted successfully: {output_file}")
 
-key = get_random_bytes(KEY_SIZE)
+key = get_random_bytes(KEY_LENGTH)
 
-plaintext_file = "input.txt"
-encrypted_file = "encrypted.aes"
-decrypted_file = "decrypted.txt"
+original_file = "input.txt"
+encrypted_output = "secured_data.aes"
+decrypted_output = "output.txt"
 
-encrypt_file(plaintext_file, encrypted_file, key)
-decrypt_file(encrypted_file, decrypted_file, key)
+encrypt_file(original_file, encrypted_output, key)
+decrypt_file(encrypted_output, decrypted_output, key)

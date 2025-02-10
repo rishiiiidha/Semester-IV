@@ -1,0 +1,1 @@
+Modify the client server program, use  RC4 to encrypt the communication, encrypt a file at the client end and send the data decrypt it at the servicer side and recreate the encrypted file and decrypt it.
